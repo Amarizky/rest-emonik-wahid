@@ -53,61 +53,7 @@ class Apikomposisiproduk extends RestController {
 
 
   
- public function index_post()
- {
-   $data =[
-     'kode_produk' =>$this->post('kode_produk'),
-     'nama_produk' =>$this->post('nama_produk'),
-     'bahan1' =>$this->post('bahan1'),
-     'bahan2' =>$this->post('bahan2'),
-     'bahan3' =>$this->post('bahan3'),
-     'bahan4' =>$this->post('bahan4'),
-     'bahan5' =>$this->post('bahan5'),
-     'bahan6' =>$this->post('bahan6'),
-     'bahan7' =>$this->post('bahan7'),
-     'bahan8' =>$this->post('bahan8'),
-     'bahan9' =>$this->post('bahan9'),
-     'bahan10' =>$this->post('bahan10'),
-     'bahan11' =>$this->post('bahan11'),
-     'bahan12' =>$this->post('bahan12'),
-     'bahan13' =>$this->post('bahan13'),
-     'bahan14' =>$this->post('bahan14'),
-     'bahan15' =>$this->post('bahan15'),
-     'bahan16' =>$this->post('bahan16'),
-     'bahan17' =>$this->post('bahan17'),
-     'bahan18' =>$this->post('bahan18'),
-     'bahan19' =>$this->post('bahan19'),
-     'bahan20' =>$this->post('bahan20'),
-     'presentase_bahan_baku1'=>$this->post('presentase_bahan_baku1'),
-     'presentase_bahan_baku2'=>$this->post('presentase_bahan_baku2'),
-     'presentase_bahan_baku3'=>$this->post('presentase_bahan_baku3'),
-     'presentase_bahan_baku4'=>$this->post('presentase_bahan_baku4'),
-     'presentase_bahan_baku5'=>$this->post('presentase_bahan_baku5'),
-     'presentase_bahan_baku6'=>$this->post('presentase_bahan_baku6'),
-     'presentase_bahan_baku7'=>$this->post('presentase_bahan_baku7'),
-     'presentase_bahan_baku8'=>$this->post('presentase_bahan_baku8'),
-     'presentase_bahan_baku9'=>$this->post('presentase_bahan_baku9'),
-     'presentase_bahan_baku10'=>$this->post('presentase_bahan_baku10'),
-     'presentase_bahan_baku11'=>$this->post('presentase_bahan_baku11'),
-     'presentase_bahan_baku12'=>$this->post('presentase_bahan_baku12'),
-     'presentase_bahan_baku13'=>$this->post('presentase_bahan_baku13'),
-     'presentase_bahan_baku14'=>$this->post('presentase_bahan_baku14'),
-     'presentase_bahan_baku15'=>$this->post('presentase_bahan_baku15'),
-     'presentase_bahan_baku16'=>$this->post('presentase_bahan_baku16'),
-     'presentase_bahan_baku17'=>$this->post('presentase_bahan_baku17'),
-     'presentase_bahan_baku18'=>$this->post('presentase_bahan_baku18'),
-     'presentase_bahan_baku19'=>$this->post('presentase_bahan_baku19'),
-     'presentase_bahan_baku20'=>$this->post('presentase_bahan_baku20'),
-     'total_percentage'=>$this->post('total_percentage'),
-   ];
-   $simpan=$this->m_produk->add($data);
-   if($simpan['status']){
-   $this->response(['status'=>true, 'msg'=>$simpan['data'].' data telah ditambahkan'], RestController::HTTP_CREATED);
 
- }else{
-   $this->response(['status'=>false, 'msg'=>['msg']],RestController::HTTP_INTERNAL_ERROR);
- }
-}
 
 public function listproduk_get()
 {
@@ -166,5 +112,34 @@ public function listproduk_get()
                }
              }
           }
+          public function index_post()
+          {
+            $data =[
+              'kode_produk' =>$this->post('kode_produk'),
+              'nama_produk' =>$this->post('nama_produk'),
+              'mitra' =>$this->post('mitra'),
+              'bahan1' =>$this->post('bahan1'),
+              'bahan2' =>$this->post('bahan2'),
+              'bahan3' =>$this->post('bahan3'),
+              'bahan4' =>$this->post('bahan4'),
+              'bahan5' =>$this->post('bahan5'),
+              'bahan6' =>$this->post('bahan6'),
+              'bahan7' =>$this->post('bahan7'),
+              'presentase_bahan_baku1'=>$this->post('presentase_bahan_baku1'),
+              'presentase_bahan_baku2'=>$this->post('presentase_bahan_baku2'),
+              'presentase_bahan_baku3'=>$this->post('presentase_bahan_baku3'),
+              'presentase_bahan_baku4'=>$this->post('presentase_bahan_baku4'),
+              'presentase_bahan_baku5'=>$this->post('presentase_bahan_baku5'),
+              'presentase_bahan_baku6'=>$this->post('presentase_bahan_baku6'),
+              'presentase_bahan_baku7'=>$this->post('presentase_bahan_baku7'),
+            ];
+            $simpan=$this->m_produk->add($data);
+            if($simpan['status']){
+             $this->response(['status'=>true, 'msg'=>$simpan['msg'].' data telah ditambahkan'], RestController::HTTP_CREATED);
+          
+           }else{
+             $this->response(['status'=>false, 'msg'=>['msg']],RestController::HTTP_INTERNAL_ERROR);
+           }
+         }
 
 }

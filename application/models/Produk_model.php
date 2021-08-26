@@ -53,19 +53,44 @@ class produk_model extends CI_Model {
     {
         return $this->db->get('produk')->num_rows();
     }
+    
+
     public function add($data)
     {
-        try{
-            $this->db->insert('produk',$data);
-            $error = $this->db->error();
-            if(!empty($error['code'])){
-                throw new Exception('terjadi kesalahan :'.$error['message']);
-                return false;
+        // mencari apakah kode_produksi ada di tabel produk
+        if (($bahanbaku = $this->db->where(['mitra' => $data['mitra']])->get('bahanbaku'))->num_rows() > 0) {
+            try {
+                // mengurangi stok bahan dari tabel produk
+                $bahanbaku = $bahanbaku->result()[0];
+
+                $update = [
+                    'stokbahan1' => $bahanbaku->stokbahan1 - $data['presentase_bahan_baku1'],
+                    'stokbahan2' => $bahanbaku->stokbahan2 - $data['presentase_bahan_baku2'],
+                    'stokbahan3' => $bahanbaku->stokbahan3 - $data['presentase_bahan_baku3'],
+                    'stokbahan4'=> $bahanbaku->stokbahan4 - $data['presentase_bahan_baku4'],
+                    'stokbahan5'=> $bahanbaku->stokbahan5 - $data['presentase_bahan_baku5'],
+                    'stokbahan6'=> $bahanbaku->stokbahan6 - $data['presentase_bahan_baku6'],
+                    'stokbahan7'=> $bahanbaku->stokbahan7 - $data['presentase_bahan_baku7'],
+                ];
+
+                $this->db->set($update)->where('mitra', $bahanbaku->mitra)->update('bahanbaku');
+
+                // memasukkan data ke tabel produks
+                $this->db->insert('produk', $data);
+
+                $error = $this->db->error();
+                if (!empty($error['code'])) {
+                    throw new Exception('terjadi kesalahan :' . $error['message']);
+                    return false;
+                }
+
+                return ['status' => true, 'msg' => 'produk berhasil diproduksi'];
+            } catch (Exception $ex) {
+                return ['status' => false, 'msg' => $ex->getMessage()];
             }
-            return ['status'=>true,'data'=>$this->db->affected_rows()];
-        } catch (Exception $ex) {
-            return ['status' => false, 'msg' => $ex->getMessage()];
+        } else {
+            return ['status' => false, 'msg' => 'kode produksi tidak ditemukan'];
         }
     }
-
 }
+
